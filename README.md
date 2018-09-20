@@ -5,7 +5,7 @@ The new AWS Lab accounts from vending machines come out with nothing provisioned
 ## Usage
 ```
 module "lab-infra" {
-  source = "git::ssh://git@bitbucket.org/cloudreach/cr-lab-bootstrap-aws.git?ref=feature/modularise"
+  source = "git::ssh://git@bitbucket.org/cloudreach/cr-lab-bootstrap-aws.git"
 
   vpc_cidr          = "10.0.0.0/16"
   ssh_public_key    = "${var.ssh_public_key}"
