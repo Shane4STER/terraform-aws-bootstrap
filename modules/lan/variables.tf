@@ -20,11 +20,3 @@ variable "lan_cidr" {
   default     = "10.0.0.0/17"
   description = "The subnet that contains ALL LAN subnets, should be calculated off VPC CIDR."
 }
-
-data "aws_availability_zones" "available" {
-  state = "available"
-}
-
-output "lan_subnet_ids" {
-  value = ["${aws_subnet.lan.*.id}"]
-}

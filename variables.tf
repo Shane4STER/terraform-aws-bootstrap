@@ -21,8 +21,3 @@ variable "lan_subnet_count" {
   default     = -1
   description = "The number of LAN (private) subnets to be created. Use -1 to create as many subnets as AZs. Default -1."
 }
-
-output "bastion_cname" {
-  description = "CNAME of the bastion LB. NB: after connecting once, you will get a fingerprint error if the bastion has been replaced."
-  value = "${module.bastion.bastion_dns}"
-}

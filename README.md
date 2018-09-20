@@ -31,3 +31,4 @@ Feel free to contribute by forking and submitting as a pull request.
 * DNS with Route53
 * Tests?
 * Fix SSH host key on bastion replacement.
+* Tagging

@@ -22,7 +22,7 @@ resource "aws_key_pair" "bastion" {
 }
 
 module "dmz" {
-  source = "dmz"
+  source = "modules/dmz"
 
   vpc_id = "${aws_vpc.primary.id}"
   igw_id = "${aws_internet_gateway.primary.id}"
@@ -32,7 +32,7 @@ module "dmz" {
 }
 
 module "lan" {
-  source = "lan"
+  source = "modules/lan"
 
   vpc_id = "${aws_vpc.primary.id}"
   igw_id = "${aws_internet_gateway.primary.id}"
@@ -44,7 +44,7 @@ module "lan" {
 }
 
 module "bastion" {
-  source = "bastion"
+  source = "modules/bastion"
 
   vpc_id      = "${aws_vpc.primary.id}"
   dmz_subnets = "${module.dmz.dmz_subnet_ids}"
