@@ -15,3 +15,7 @@ variable "inbound_ssh_cidrs" {
 variable "ssh_key" {
   description = "SSH Key name for bastion access"
 }
+
+variable "bastion_ami_id" {
+  description = "AMI ID to use for the bastion host"
+}

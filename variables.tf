@@ -12,6 +12,10 @@ variable "inbound_ssh_cidrs" {
   type = "list"
 }
 
+variable "bastion_ami_id" {
+  description = "AMI ID to use for the bastion host"
+}
+
 variable "dmz_subnet_count" {
   default     = -1
   description = "The number of DMZ (public) subnets to be created. Use -1 to create as many subnets as AZs. Default -1."

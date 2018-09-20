@@ -51,4 +51,5 @@ module "bastion" {
 
   inbound_ssh_cidrs = ["${var.inbound_ssh_cidrs}"]
   ssh_key           = "${aws_key_pair.bastion.key_name}"
+  bastion_ami_id    = "${var.bastion_ami_id}"
 }
