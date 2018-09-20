@@ -1,7 +1,3 @@
-provider "aws" {
-  region = "${var.aws_region}"
-}
-
 resource "aws_vpc" "primary" {
   cidr_block           = "${var.vpc_cidr}"
   enable_dns_support   = true
@@ -26,7 +22,7 @@ resource "aws_key_pair" "bastion" {
 }
 
 module "dmz" {
-  source = "dmz"
+  source = "modules/dmz"
 
   vpc_id = "${aws_vpc.primary.id}"
   igw_id = "${aws_internet_gateway.primary.id}"
@@ -36,7 +32,7 @@ module "dmz" {
 }
 
 module "lan" {
-  source = "lan"
+  source = "modules/lan"
 
   vpc_id = "${aws_vpc.primary.id}"
   igw_id = "${aws_internet_gateway.primary.id}"
@@ -48,11 +44,12 @@ module "lan" {
 }
 
 module "bastion" {
-  source = "bastion"
+  source = "modules/bastion"
 
   vpc_id      = "${aws_vpc.primary.id}"
   dmz_subnets = "${module.dmz.dmz_subnet_ids}"
 
-  inbound_ssh_cidrs = ["185.73.154.30/32"]
+  inbound_ssh_cidrs = ["${var.inbound_ssh_cidrs}"]
   ssh_key           = "${aws_key_pair.bastion.key_name}"
+  bastion_ami_id    = "${var.bastion_ami_id}"
 }

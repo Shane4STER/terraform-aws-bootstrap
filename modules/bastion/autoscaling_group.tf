@@ -1,6 +1,6 @@
 resource "aws_launch_configuration" "bastion" {
   name_prefix     = "lab-bastion-host-"
-  image_id        = "${data.aws_ami.bastion.id}"
+  image_id        = "${var.bastion_ami_id}"
   instance_type   = "t2.micro"
   key_name        = "${var.ssh_key}"
   security_groups = ["${aws_security_group.bastion_asg.id}"]

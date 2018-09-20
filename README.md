@@ -2,23 +2,34 @@
 
 The new AWS Lab accounts from vending machines come out with nothing provisioned. Use this stack to provision a basic setup with public and private subnets, and a bastion ASG.
 
-## Requirements
-
-* Terraform version listed in `.terraform-version` or [tfenv](https://github.com/Zordrak/tfenv)
-* An infrastructure deployer role with admin privledges
-
 ## Usage
 ```
-$ terraform init
-$ terraform plan
-$ terraform apply
+module "lab-infra" {
+  source = "git::ssh://git@bitbucket.org/cloudreach/cr-lab-bootstrap-aws.git?ref=feature/modularise"
+
+  vpc_cidr          = "10.0.0.0/16"
+  ssh_public_key    = "${var.ssh_public_key}"
+  inbound_ssh_cidrs = "${var.inbound_ssh_cidrs}"
+  bastion_ami_id    = "ami-0cf31d971a3ca20d6"
+  dmz_subnet_count  = -1
+  lan_subnet_count  = -1
+}
 ```
+|Name|Description|Type|Default|Required|
+|:--:|-----------|:--:|:-----:|:------:|
+| vpc_cidr | CIDR Range to provision the VPC with. | `String` | `10.0.0.0/16` | no |
+| ssh_public_key | SSH Key for bastion access. `authourized_keys` format. | `String` | `` | yes |
+| inbound_ssh_cidrs | List of CIDRs allowed to access bastion host. | `List` | `` | no |
+| bastion_ami_id | AMI ID to use for the bastion host | `String` | `` | yes |
+| dmz_subnet_count | Number of DMZ subnets to create. Use `-1` to create 1 subnet per AZ | `Number` | `-1` | no|
+| lan_subnet_count | Number of LAN subnets to create. Use `-1` to create 1 subnet per AZ | `Number` | `-1` | no|
+
 
 ## Contributing
 Feel free to contribute by forking and submitting as a pull request.
 
 ## TODO
-* Properly Assume lab role
 * DNS with Route53
 * Tests?
-* Serve as a module to be included in other projects
+* Fix SSH host key on bastion replacement.
+* Tagging
