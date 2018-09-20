@@ -9,7 +9,7 @@ variable "ssh_public_key" {
 
 variable "inbound_ssh_cidrs" {
   description = "A list of CIDRs that are able to SSH to the bastion host."
-  type = "list"
+  type        = "list"
 }
 
 variable "bastion_ami_id" {
