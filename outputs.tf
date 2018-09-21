@@ -4,5 +4,16 @@ output "bastion_cname" {
 }
 
 output "bastion_sg" {
-  value = "${module.bastion.bastion_sg}"
+  description = "Security group allowing the bastion host SSH access"
+  value       = "${module.bastion.bastion_sg}"
+}
+
+output "dmz_subnets_ids" {
+  description = "List of DMZ (public) subnet ids"
+  value       = "${module.dmz.dmz_subnets_ids}"
+}
+
+output "lan_subnets_ids" {
+  description = "List of LAN (private) subnet ids"
+  value       = "${module.lan.lan_subnets_ids}"
 }
