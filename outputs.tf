@@ -10,10 +10,10 @@ output "bastion_sg" {
 
 output "dmz_subnets_ids" {
   description = "List of DMZ (public) subnet ids"
-  value       = "${module.dmz.dmz_subnets_ids}"
+  value       = "${module.dmz.dmz_subnet_ids}"
 }
 
 output "lan_subnets_ids" {
   description = "List of LAN (private) subnet ids"
-  value       = "${module.lan.lan_subnets_ids}"
+  value       = "${module.lan.lan_subnet_ids}"
 }
