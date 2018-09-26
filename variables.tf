@@ -1,8 +1,3 @@
-variable "aws_region" {
-  default     = "eu-west-1"
-  description = "The region in which you would like the stack deployed. Defaults to Ireland."
-}
-
 variable "vpc_cidr" {
   default     = "10.0.0.0/16"
   description = "CIDR range to provision the VPC with. Defaults to 10.0.0.0/16. Must be a valid CIDR for an AWS VPC. ie /16 - /28"
@@ -10,6 +5,15 @@ variable "vpc_cidr" {
 
 variable "ssh_public_key" {
   description = "SSH Key for bastion access"
+}
+
+variable "inbound_ssh_cidrs" {
+  description = "A list of CIDRs that are able to SSH to the bastion host."
+  type        = "list"
+}
+
+variable "bastion_ami_id" {
+  description = "AMI ID to use for the bastion host"
 }
 
 variable "dmz_subnet_count" {

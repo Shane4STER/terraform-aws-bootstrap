@@ -15,15 +15,3 @@ variable "dmz_cidr" {
   default     = "10.0.0.0/17"
   description = "The subnet that contains ALL DMZ subnets, should be calculated off VPC CIDR."
 }
-
-data "aws_availability_zones" "available" {
-  state = "available"
-}
-
-output "dmz_subnet_ids" {
-  value = ["${aws_subnet.dmz.*.id}"]
-}
-
-output "nat_gateway_ids" {
-  value = ["${aws_nat_gateway.ngw.*.id}"]
-}
