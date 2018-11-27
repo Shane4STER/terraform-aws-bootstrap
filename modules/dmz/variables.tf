@@ -15,3 +15,7 @@ variable "dmz_cidr" {
   default     = "10.0.0.0/17"
   description = "The subnet that contains ALL DMZ subnets, should be calculated off VPC CIDR."
 }
+
+variable "dmz_ipv6_cidr" {
+  description = "The IPv6 subnet for whole DMZ. At most this can be a /60"
+}

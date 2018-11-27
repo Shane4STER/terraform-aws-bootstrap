@@ -1,5 +1,7 @@
 resource "aws_vpc" "primary" {
-  cidr_block           = "${var.vpc_cidr}"
+  cidr_block                       = "${var.vpc_cidr}"
+  assign_generated_ipv6_cidr_block = true
+
   enable_dns_support   = true
   enable_dns_hostnames = true
 
@@ -16,6 +18,10 @@ resource "aws_internet_gateway" "primary" {
   }
 }
 
+resource "aws_egress_only_internet_gateway" "primary" {
+  vpc_id = "${aws_vpc.primary.id}"
+}
+
 resource "aws_key_pair" "bastion" {
   key_name_prefix = "bastion-key-"
   public_key      = "${var.ssh_public_key}"
@@ -29,16 +35,19 @@ module "dmz" {
 
   dmz_subnet_count = "${var.dmz_subnet_count}"
   dmz_cidr         = "${cidrsubnet(aws_vpc.primary.cidr_block, 1, 0)}"
+  dmz_ipv6_cidr    = "${cidrsubnet(aws_vpc.primary.ipv6_cidr_block, 4, 0)}"
 }
 
 module "lan" {
   source = "modules/lan"
 
-  vpc_id = "${aws_vpc.primary.id}"
-  igw_id = "${aws_internet_gateway.primary.id}"
+  vpc_id    = "${aws_vpc.primary.id}"
+  igw_id    = "${aws_internet_gateway.primary.id}"
+  eo_igw_id = "${aws_egress_only_internet_gateway.primary.id}"
 
   lan_subnet_count = "${var.lan_subnet_count}"
   lan_cidr         = "${cidrsubnet(aws_vpc.primary.cidr_block, 1, 1)}"
+  lan_ipv6_cidr    = "${cidrsubnet(aws_vpc.primary.ipv6_cidr_block, 4, 1)}"
 
   nat_gateway_ids = "${module.dmz.nat_gateway_ids}"
 }

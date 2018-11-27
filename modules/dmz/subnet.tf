@@ -1,9 +1,11 @@
 resource "aws_subnet" "dmz" {
-  count                   = "${var.dmz_subnet_count < 0 ? length(data.aws_availability_zones.available.names) : var.dmz_subnet_count}"
-  vpc_id                  = "${var.vpc_id}"
-  cidr_block              = "${cidrsubnet(var.dmz_cidr, 3, count.index)}"
-  availability_zone       = "${element(data.aws_availability_zones.available.names, count.index)}"
-  map_public_ip_on_launch = true
+  count                           = "${var.dmz_subnet_count < 0 ? length(data.aws_availability_zones.available.names) : var.dmz_subnet_count}"
+  vpc_id                          = "${var.vpc_id}"
+  cidr_block                      = "${cidrsubnet(var.dmz_cidr, 3, count.index)}"
+  ipv6_cidr_block                 = "${cidrsubnet(var.dmz_ipv6_cidr, 4, count.index)}"
+  availability_zone               = "${element(data.aws_availability_zones.available.names, count.index)}"
+  map_public_ip_on_launch         = true
+  assign_ipv6_address_on_creation = true
 
   tags {
     ManagedByTerraform = "true"
@@ -22,6 +24,12 @@ resource "aws_route" "internet" {
   route_table_id         = "${aws_route_table.dmz.id}"
   destination_cidr_block = "0.0.0.0/0"
   gateway_id             = "${var.igw_id}"
+}
+
+resource "aws_route" "ipv6" {
+  route_table_id              = "${aws_route_table.dmz.id}"
+  destination_ipv6_cidr_block = "::/0"
+  gateway_id                  = "${var.igw_id}"
 }
 
 resource "aws_route_table_association" "dmz" {
