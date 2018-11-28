@@ -6,6 +6,10 @@ variable "igw_id" {
   description = "The ID of the internet gateway"
 }
 
+variable "eo_igw_id" {
+  description = "The ID of the egress only internet gateway"
+}
+
 variable "lan_subnet_count" {
   default     = -1
   description = "The number of LAN (private) subnets to be created. Use -1 to create as many subnets as AZs. Default -1"
@@ -19,4 +23,8 @@ variable "nat_gateway_ids" {
 variable "lan_cidr" {
   default     = "10.0.0.0/17"
   description = "The subnet that contains ALL LAN subnets, should be calculated off VPC CIDR."
+}
+
+variable "lan_ipv6_cidr" {
+  description = "The IPv6 subnet for the whole LAN. At most should be a /60, subnets will be 4 more"
 }
